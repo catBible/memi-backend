@@ -7,9 +7,8 @@ public record SupplementResponse(
 	String name,
 	String brand,
 	String dosage,
-	String form,
-	String notes,
-	Instant createdAt,
-	Instant updatedAt
+	int stockRemaining,
+	String takenTimeSlot,
+	Instant lastTakenAt
 ) {
 }

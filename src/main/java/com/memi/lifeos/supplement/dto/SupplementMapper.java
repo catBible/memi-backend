@@ -16,8 +16,8 @@ public final class SupplementMapper {
 			.name(w.name().trim())
 			.brand(trimOrNull(w.brand()))
 			.dosage(trimOrNull(w.dosage()))
-			.form(trimOrNull(w.form()))
-			.notes(trimOrNull(w.notes()))
+			.stockRemaining(w.stockRemaining())
+			.takenTimeSlot(trimOrNull(w.takenTimeSlot()))
 			.build();
 	}
 
@@ -27,8 +27,8 @@ public final class SupplementMapper {
 		target.setName(w.name().trim());
 		target.setBrand(trimOrNull(w.brand()));
 		target.setDosage(trimOrNull(w.dosage()));
-		target.setForm(trimOrNull(w.form()));
-		target.setNotes(trimOrNull(w.notes()));
+		target.setStockRemaining(w.stockRemaining());
+		target.setTakenTimeSlot(trimOrNull(w.takenTimeSlot()));
 	}
 
 	public static SupplementResponse toResponse(Supplement s) {
@@ -37,10 +37,9 @@ public final class SupplementMapper {
 			s.getName(),
 			s.getBrand(),
 			s.getDosage(),
-			s.getForm(),
-			s.getNotes(),
-			s.getCreatedAt(),
-			s.getUpdatedAt()
+			s.getStockRemaining(),
+			s.getTakenTimeSlot(),
+			s.getLastTakenAt()
 		);
 	}
 

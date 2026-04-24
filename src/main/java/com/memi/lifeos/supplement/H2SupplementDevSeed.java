@@ -33,15 +33,15 @@ class H2SupplementDevSeed implements CommandLineRunner {
 			.name("Vitamin D3")
 			.brand("Nordic Naturals")
 			.dosage("2000 IU")
-			.form("softgel")
-			.notes("Take with breakfast")
+			.stockRemaining(60)
+			.takenTimeSlot("Noon")
 			.build());
 		repository.save(Supplement.builder()
 			.name("Omega-3 (EPA/DHA)")
 			.brand("Carlson")
 			.dosage("1000 mg")
-			.form("softgel")
-			.notes(null)
+			.stockRemaining(90)
+			.takenTimeSlot("Noon")
 			.build());
 	}
 }

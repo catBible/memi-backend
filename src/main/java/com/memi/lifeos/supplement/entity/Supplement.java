@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,23 +31,13 @@ public class Supplement {
 	private String name;
 	private String brand;
 	private String dosage;
-	private String form;
-	@Column(length = 2000)
-	private String notes;
-
-	@Column(nullable = false, updatable = false)
-	private Instant createdAt;
-	private Instant updatedAt;
-
-	@PrePersist
-	protected void onCreate() {
-		Instant now = Instant.now();
-		createdAt = now;
-		updatedAt = now;
-	}
-
-	@PreUpdate
-	protected void onUpdate() {
-		updatedAt = Instant.now();
-	}
+	/** Remaining count (matches Supabase column stock_remaining). */
+	@Column(name = "stock_remaining", nullable = false)
+	@Builder.Default
+	private int stockRemaining = 0;
+	/** e.g. "Bedtime", "Noon" (matches taken_time_slot). */
+	@Column(name = "taken_time_slot", length = 64)
+	private String takenTimeSlot;
+	@Column(name = "last_taken_at")
+	private Instant lastTakenAt;
 }
