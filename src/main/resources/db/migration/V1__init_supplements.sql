@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS supplements (
     dosage     VARCHAR(255),
     form       VARCHAR(255),
     notes      VARCHAR(2000),
-    created_at TIMESTAMPTZ NOT NULL,
-    updated_at TIMESTAMPTZ
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE
 );
 
 CREATE INDEX IF NOT EXISTS idx_supplements_name_lower ON supplements (lower(name));
