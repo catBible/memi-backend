@@ -31,7 +31,7 @@ class SupplementApiIT {
 	ObjectMapper objectMapper;
 
 	private static final String KEY = "X-API-Key";
-	private static final String VAL = "test-api-key";
+	private static final String VAL = "memi-dev-api-key-7f2a9c1e";
 
 	@Test
 	void liveness() throws Exception {

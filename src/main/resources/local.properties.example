@@ -5,8 +5,8 @@ spring.datasource.password=YOUR_PASSWORD
 # Optional: slow or unstable networks
 spring.datasource.hikari.connection-timeout=30000
 spring.datasource.hikari.maximum-pool-size=5
-# Optional: require X-API-Key for POST/PUT/PATCH/DELETE on /api (or set API_KEY in env)
-# app.api.key=choose-a-long-random-key
+# X-API-Key for write operations (or set API_KEY on the host; dev example below)
+app.api.key=memi-dev-api-key-7f2a9c1e
 # Optional: browser calls from a public site / tunnel (comma-separated, merge with default patterns)
 # CORS_EXTRA_PATTERNS (env) or:
 # app.cors.extra-patterns=https://app.example.com,https://some-app.vercel.app
