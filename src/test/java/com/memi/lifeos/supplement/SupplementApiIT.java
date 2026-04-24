@@ -49,6 +49,13 @@ class SupplementApiIT {
 	}
 
 	@Test
+	void listAll() throws Exception {
+		mvc.perform(get("/api/supplements/all"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$").isArray());
+	}
+
+	@Test
 	void postWithoutKeyIsUnauthorized() throws Exception {
 		var body = new SupplementWriteRequest("Test", "b", "1", "tab", "n");
 		mvc.perform(

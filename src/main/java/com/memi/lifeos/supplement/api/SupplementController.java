@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/supplements")
 public class SupplementController {
@@ -39,6 +41,14 @@ public class SupplementController {
 		@Parameter(description = "search in name and brand, case-insensitive")
 		@RequestParam(required = false) String q) {
 		return supplementService.list(page, q);
+	}
+
+	@GetMapping("/all")
+	@Operation(summary = "List all supplements (no pagination; use ?q= for name/brand filter)")
+	public List<SupplementResponse> listAll(
+		@Parameter(description = "search in name and brand, case-insensitive")
+		@RequestParam(required = false) String q) {
+		return supplementService.listAll(q);
 	}
 
 	@GetMapping("/{id}")

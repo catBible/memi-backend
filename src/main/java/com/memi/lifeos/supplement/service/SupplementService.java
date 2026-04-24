@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class SupplementService {
@@ -29,6 +31,14 @@ public class SupplementService {
 		Specification<Supplement> spec = SupplementQuerySpecs.byOptionalQuery(q);
 		Page<Supplement> all = repository.findAll(spec, pageable);
 		return SupplementMapper.toResponsePage(all);
+	}
+
+	@Transactional(readOnly = true)
+	public List<SupplementResponse> listAll(String q) {
+		Specification<Supplement> spec = SupplementQuerySpecs.byOptionalQuery(q);
+		return repository.findAll(spec).stream()
+			.map(SupplementMapper::toResponse)
+			.toList();
 	}
 
 	@Transactional(readOnly = true)
