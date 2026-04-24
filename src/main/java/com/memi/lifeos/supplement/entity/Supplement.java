@@ -25,7 +25,8 @@ public class Supplement {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	/** Maps to PostgreSQL/Supabase {@code serial} (INTEGER), not BIGSERIAL. */
+	private Integer id;
 
 	@Column(nullable = false)
 	private String name;

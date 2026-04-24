@@ -44,7 +44,7 @@ public class SupplementService {
 	@Transactional(readOnly = true)
 	public SupplementResponse get(long id) {
 		return SupplementMapper.toResponse(
-			repository.findById(id)
+			repository.findById((int) id)
 				.orElseThrow(() -> notFound(id))
 		);
 	}
@@ -55,16 +55,18 @@ public class SupplementService {
 	}
 
 	public SupplementResponse replace(long id, SupplementWriteRequest body) {
-		Supplement existing = repository.findById(id).orElseThrow(() -> notFound(id));
+		int sid = (int) id;
+		Supplement existing = repository.findById(sid).orElseThrow(() -> notFound(id));
 		SupplementMapper.copy(body, existing);
 		return SupplementMapper.toResponse(repository.save(existing));
 	}
 
 	public void delete(long id) {
-		if (!repository.existsById(id)) {
+		int sid = (int) id;
+		if (!repository.existsById(sid)) {
 			throw notFound(id);
 		}
-		repository.deleteById(id);
+		repository.deleteById(sid);
 	}
 
 	private static ResponseStatusException notFound(long id) {

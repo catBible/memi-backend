@@ -81,7 +81,7 @@ class SupplementApiIT {
 			.andReturn()
 			.getResponse()
 			.getContentAsString();
-		long id = objectMapper.readTree(res).get("id").asLong();
+		int id = objectMapper.readTree(res).get("id").asInt();
 
 		mvc.perform(get("/api/supplements/" + id))
 			.andExpect(status().isOk())

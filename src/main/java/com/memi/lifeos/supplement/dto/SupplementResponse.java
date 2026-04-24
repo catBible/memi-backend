@@ -3,7 +3,7 @@ package com.memi.lifeos.supplement.dto;
 import java.time.Instant;
 
 public record SupplementResponse(
-	Long id,
+	Integer id,
 	String name,
 	String brand,
 	String dosage,

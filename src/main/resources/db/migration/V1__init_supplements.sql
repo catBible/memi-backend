@@ -1,6 +1,6 @@
 -- Supplements: schema matches com.memi.lifeos.supplement.entity.Supplement (snake_case columns)
 CREATE TABLE IF NOT EXISTS supplements (
-    id         BIGSERIAL PRIMARY KEY,
+    id         SERIAL PRIMARY KEY,
     name       VARCHAR(255) NOT NULL,
     brand      VARCHAR(255),
     dosage     VARCHAR(255),
