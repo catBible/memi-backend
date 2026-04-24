@@ -1,4 +1,6 @@
 # Copy to local.properties and fill in (local.properties is gitignored)
+# On Railway, link Postgres or set DATABASE_URL — no local file is required in the container.
+# For local dev without DATABASE_URL, use:
 spring.datasource.url=jdbc:postgresql://YOUR_HOST:5432/postgres?sslmode=require
 spring.datasource.username=postgres
 spring.datasource.password=YOUR_PASSWORD
