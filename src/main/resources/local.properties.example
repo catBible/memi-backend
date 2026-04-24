@@ -5,3 +5,5 @@ spring.datasource.password=YOUR_PASSWORD
 # Optional: slow or unstable networks
 spring.datasource.hikari.connection-timeout=30000
 spring.datasource.hikari.maximum-pool-size=5
+# Optional: require X-API-Key for POST/PUT/PATCH/DELETE on /api (or set API_KEY in env)
+# app.api.key=choose-a-long-random-key

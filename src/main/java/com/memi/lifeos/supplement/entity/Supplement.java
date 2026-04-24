@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +30,6 @@ public class Supplement {
 	private Long id;
 
 	@Column(nullable = false)
-	@NotBlank
 	private String name;
 	private String brand;
 	private String dosage;
