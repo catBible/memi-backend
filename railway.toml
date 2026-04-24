@@ -1,0 +1,11 @@
+# Railway: https://docs.railway.com/config-as-code
+# After first deploy, open the service → Settings (or Networking) → Generate a public domain (was "Unexposed" until you do)
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Uses LivenessController — returns 200 without checking database
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"

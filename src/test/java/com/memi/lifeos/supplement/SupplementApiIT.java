@@ -34,6 +34,13 @@ class SupplementApiIT {
 	private static final String VAL = "test-api-key";
 
 	@Test
+	void liveness() throws Exception {
+		mvc.perform(get("/health"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.status").value("UP"));
+	}
+
+	@Test
 	void listEmpty() throws Exception {
 		mvc.perform(get("/api/supplements"))
 			.andExpect(status().isOk())
