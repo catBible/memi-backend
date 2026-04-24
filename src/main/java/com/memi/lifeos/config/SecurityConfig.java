@@ -10,8 +10,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -24,15 +26,28 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration c = new CorsConfiguration();
-		c.setAllowedOriginPatterns(List.of(
+	CorsConfigurationSource corsConfigurationSource(
+		@Value("${app.cors.extra-patterns:}") String extraPatterns) {
+		List<String> patterns = new ArrayList<>();
+		patterns.addAll(List.of(
 			"http://localhost:*",
 			"https://localhost:*",
 			"http://127.0.0.1:*",
 			"https://127.0.0.1:*",
-			"https://*.vercel.app"
+			"https://*.vercel.app",
+			"https://*.ngrok-free.app",
+			"https://*.ngrok.io"
 		));
+		if (StringUtils.hasText(extraPatterns)) {
+			for (String p : extraPatterns.split(",")) {
+				String t = p.trim();
+				if (!t.isEmpty()) {
+					patterns.add(t);
+				}
+			}
+		}
+		CorsConfiguration c = new CorsConfiguration();
+		c.setAllowedOriginPatterns(patterns);
 		c.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"));
 		c.setAllowedHeaders(List.of("*"));
 		c.setMaxAge(3600L);
