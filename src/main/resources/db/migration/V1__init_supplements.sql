@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS supplements (
     updated_at TIMESTAMP WITH TIME ZONE
 );
 
-CREATE INDEX IF NOT EXISTS idx_supplements_name_lower ON supplements (lower(name));
-CREATE INDEX IF NOT EXISTS idx_supplements_brand_lower ON supplements (lower(brand)) WHERE brand IS NOT NULL;
+-- B-tree only (portable; functional/lower() indexes differ by vendor and can break on H2 / strict parsers)
+CREATE INDEX IF NOT EXISTS idx_supplements_name ON supplements (name);
+CREATE INDEX IF NOT EXISTS idx_supplements_brand ON supplements (brand);
