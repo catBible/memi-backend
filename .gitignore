@@ -23,3 +23,6 @@ Thumbs.db
 *.class
 *.log
 hs_err_pid*.log
+
+# Local DB / secrets (optional classpath import in application.properties)
+src/main/resources/local.properties
