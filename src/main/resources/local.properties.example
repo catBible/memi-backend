@@ -1,4 +1,4 @@
 # Copy to local.properties and fill in (local.properties is gitignored)
-spring.datasource.url=jdbc:postgresql://YOUR_HOST:5432/postgres
+spring.datasource.url=jdbc:postgresql://YOUR_HOST:5432/postgres?sslmode=require
 spring.datasource.username=postgres
 spring.datasource.password=YOUR_PASSWORD
