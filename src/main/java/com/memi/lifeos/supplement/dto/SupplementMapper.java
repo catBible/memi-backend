@@ -18,6 +18,8 @@ public final class SupplementMapper {
 			.dosage(trimOrNull(w.dosage()))
 			.stockRemaining(w.stockRemaining())
 			.takenTimeSlot(trimOrNull(w.takenTimeSlot()))
+			.doseTime(trimOrNull(w.doseTime()))
+			.mealTiming(normalizeMealTiming(w.mealTiming()))
 			.build();
 	}
 
@@ -29,6 +31,8 @@ public final class SupplementMapper {
 		target.setDosage(trimOrNull(w.dosage()));
 		target.setStockRemaining(w.stockRemaining());
 		target.setTakenTimeSlot(trimOrNull(w.takenTimeSlot()));
+		target.setDoseTime(trimOrNull(w.doseTime()));
+		target.setMealTiming(normalizeMealTiming(w.mealTiming()));
 	}
 
 	public static SupplementResponse toResponse(Supplement s) {
@@ -39,6 +43,8 @@ public final class SupplementMapper {
 			s.getDosage(),
 			s.getStockRemaining(),
 			s.getTakenTimeSlot(),
+			s.getDoseTime(),
+			s.getMealTiming(),
 			s.getLastTakenAt()
 		);
 	}
@@ -53,5 +59,21 @@ public final class SupplementMapper {
 		}
 		String t = v.trim();
 		return t.isEmpty() ? null : t;
+	}
+
+	/** Store lowercase for stable API. */
+	private static String normalizeMealTiming(String v) {
+		if (v == null) {
+			return null;
+		}
+		String t = v.trim();
+		if (t.isEmpty()) {
+			return null;
+		}
+		String l = t.toLowerCase();
+		if ("before".equals(l) || "after".equals(l)) {
+			return l;
+		}
+		return t;
 	}
 }

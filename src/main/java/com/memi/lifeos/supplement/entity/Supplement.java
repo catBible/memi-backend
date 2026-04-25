@@ -39,6 +39,14 @@ public class Supplement {
 	/** e.g. "Bedtime", "Noon" (matches taken_time_slot). */
 	@Column(name = "taken_time_slot", length = 64)
 	private String takenTimeSlot;
+	/** Local time to take, 24h "HH:mm" (e.g. 12:00, 00:30). */
+	@Column(name = "dose_time", length = 8)
+	private String doseTime;
+	/**
+	 * Meal context: e.g. {@code before} = ก่อนอาหาร, {@code after} = หลังอาหาร; optional.
+	 */
+	@Column(name = "meal_timing", length = 32)
+	private String mealTiming;
 	@Column(name = "last_taken_at")
 	private Instant lastTakenAt;
 }

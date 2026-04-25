@@ -57,7 +57,7 @@ class SupplementApiIT {
 
 	@Test
 	void postWithoutKeyIsUnauthorized() throws Exception {
-		var body = new SupplementWriteRequest("Test", "b", "1", 1, "Noon");
+		var body = new SupplementWriteRequest("Test", "b", "1", 1, "Noon", null, null);
 		mvc.perform(
 			post("/api/supplements")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ class SupplementApiIT {
 
 	@Test
 	void createGetDelete() throws Exception {
-		var create = new SupplementWriteRequest("Omega-3", "Nordic", "1000mg", 30, "Noon");
+		var create = new SupplementWriteRequest("Omega-3", "Nordic", "1000mg", 30, "Noon", "12:00", "after");
 		String res = mvc.perform(
 			post("/api/supplements")
 				.header(KEY, VAL)
@@ -86,7 +86,9 @@ class SupplementApiIT {
 		mvc.perform(get("/api/supplements/" + id))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(id))
-			.andExpect(jsonPath("$.dosage").value("1000mg"));
+			.andExpect(jsonPath("$.dosage").value("1000mg"))
+			.andExpect(jsonPath("$.doseTime").value("12:00"))
+			.andExpect(jsonPath("$.mealTiming").value("after"));
 
 		mvc.perform(delete("/api/supplements/" + id).header(KEY, VAL))
 			.andExpect(status().isNoContent());
