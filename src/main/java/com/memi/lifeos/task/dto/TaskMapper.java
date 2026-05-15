@@ -1,5 +1,7 @@
 package com.memi.lifeos.task.dto;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.memi.lifeos.task.entity.Task;
 
 import java.util.ArrayList;
@@ -7,6 +9,10 @@ import java.util.List;
 import java.util.Objects;
 
 public final class TaskMapper {
+
+	private static final ObjectMapper TAG_JSON = new ObjectMapper();
+	private static final TypeReference<List<String>> TAG_LIST_TYPE = new TypeReference<>() {
+	};
 
 	private TaskMapper() {
 	}
@@ -19,7 +25,7 @@ public final class TaskMapper {
 			.description(trimOrNull(w.description()))
 			.status(normalizeStatus(w.status()))
 			.priority(w.priority() != null ? w.priority() : 2)
-			.tags(tagList)
+			.tagsJson(tagsToJson(tagList))
 			.scheduledAt(w.scheduledAt())
 			.endAt(w.endAt())
 			.dueAt(w.dueAt())
@@ -37,7 +43,7 @@ public final class TaskMapper {
 			t.getDescription(),
 			t.getStatus(),
 			t.getPriority(),
-			t.getTags() == null ? List.of() : List.copyOf(t.getTags()),
+			tagsFromJson(t.getTagsJson()),
 			t.getScheduledAt(),
 			t.getEndAt(),
 			t.getDueAt(),
@@ -71,7 +77,7 @@ public final class TaskMapper {
 			target.setPriority(p.getPriority());
 		}
 		if (p.getTags() != null) {
-			target.setTags(new ArrayList<>(p.getTags()));
+			target.setTagsJson(tagsToJson(p.getTags()));
 		}
 		if (p.getScheduledAt() != null) {
 			target.setScheduledAt(p.getScheduledAt());
@@ -90,6 +96,41 @@ public final class TaskMapper {
 		}
 		if (p.getNote() != null) {
 			target.setNote(trimOrNull(p.getNote()));
+		}
+	}
+
+	static List<String> tagsFromJson(String raw) {
+		if (raw == null || raw.isBlank()) {
+			return List.of();
+		}
+		String t = raw.trim();
+		try {
+			if (t.startsWith("[")) {
+				return TAG_JSON.readValue(t, TAG_LIST_TYPE);
+			}
+		} catch (Exception ignored) {
+			// fall through
+		}
+		// Legacy: plain comma-separated (should not happen after V7)
+		if (t.contains(",")) {
+			List<String> out = new ArrayList<>();
+			for (String s : t.split(",")) {
+				String x = s.trim();
+				if (!x.isEmpty()) {
+					out.add(x);
+				}
+			}
+			return out;
+		}
+		return t.isEmpty() ? List.of() : List.of(t);
+	}
+
+	static String tagsToJson(List<String> tags) {
+		try {
+			List<String> list = tags == null ? List.of() : tags;
+			return TAG_JSON.writeValueAsString(list);
+		} catch (Exception e) {
+			return "[]";
 		}
 	}
 

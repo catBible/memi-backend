@@ -13,12 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "tasks")
@@ -47,9 +43,12 @@ public class Task {
 	@Builder.Default
 	private Integer priority = 2;
 
-	@JdbcTypeCode(SqlTypes.ARRAY)
-	@Column(name = "tags")
-	private List<String> tags;
+	/**
+	 * JSON array of strings, e.g. {@code []} or {@code ["home","urgent"]}.
+	 * Stored as TEXT (not native PG {@code text[]}) for JDBC compatibility.
+	 */
+	@Column(name = "tags", columnDefinition = "TEXT")
+	private String tagsJson;
 
 	@Column(name = "scheduled_at")
 	private Instant scheduledAt;
@@ -94,8 +93,8 @@ public class Task {
 		if (updatedAt == null) {
 			updatedAt = now;
 		}
-		if (tags == null) {
-			tags = new ArrayList<>();
+		if (tagsJson == null || tagsJson.isBlank()) {
+			tagsJson = "[]";
 		}
 		if (timerElapsedSec == null) {
 			timerElapsedSec = 0;
